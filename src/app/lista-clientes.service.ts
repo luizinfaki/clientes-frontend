@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class ListaClientesService {
 
   ApiRest = 'http://localhost:8090/rest/APICLIENTES';
@@ -31,11 +32,11 @@ export class ListaClientesService {
 
   getColunas(): Array<PoTableColumn> {
     return [
-      { property: 'id', label: 'Código'},
+      { property: 'id',   label: 'Código'},
       { property: 'loja', label: 'Loja' },
       { property: 'nome', label: 'Nome' },
       { property: 'tipo', label: 'Fisica/Juridica' },
-      { property: 'endereco', label: 'Endereço' },
+      { property: 'end',  label: 'Endereço' },
     ];
   }
 }

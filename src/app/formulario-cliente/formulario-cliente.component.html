@@ -1,0 +1,14 @@
+<po-page-default [p-title]="title">
+  <po-dynamic-form #dynamicform
+  [p-fields]="fields"
+  [p-value]="dadosCliente">
+  </po-dynamic-form>
+
+  <div class="thf-row">
+      <po-button
+        class="thf-md-3"
+        p-label="Inserir"
+        (p-click)="inserirCliente()">
+      </po-button>
+  </div>
+</po-page-default>
