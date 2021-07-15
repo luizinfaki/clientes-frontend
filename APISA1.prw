@@ -173,7 +173,7 @@ static function MCli(oSelf, oCli, nOpc)
 
 	Private lMsErroAuto	   := .F.
 
-	aCliArr := ClassDataArr(oCli:SA1)
+	aCliArr := ClassDataArr(oCli)
 	For i := 1 To Len(aCliArr)
 		aAdd(aSA1Auto, {aCliArr[i,1], aCliArr[i,2], Nil})
 	Next i

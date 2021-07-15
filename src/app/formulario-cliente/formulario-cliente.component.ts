@@ -17,15 +17,16 @@ export class FormularioClienteComponent implements OnInit {
   //fields: Array&amp;lt;PoDynamicFormField&amp;gt; = []; //campos "dinamicos" para usar no formulário
   cliente: Cliente = new Cliente(); //model de um fornecedor
   dadosCliente = {
-    codigo: '',
-    loja: 1,
-    bairro: '',
-    nome: '',
-    nreduz: '',
-    tipo: 'F',
-    end: '',
-    est: '',
-    mun: '',
+    a1_cod: '',
+    a1_loja: '01',
+    a1_bairro: '',
+    a1_nome: '',
+    a1_nreduz: '',
+    a1_tipo: 'F',
+    a1_pessoa: 'F',
+    a1_end: '',
+    a1_est: '',
+    a1_mun: '',
   };
   title = 'Inclusão de Cliente';
 
@@ -36,7 +37,20 @@ export class FormularioClienteComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dadosCliente = {
+      a1_cod: '',
+      a1_loja: '01',
+      a1_bairro: '',
+      a1_nome: '',
+      a1_nreduz: '',
+      a1_tipo: 'F',
+      a1_pessoa: 'F',
+      a1_end: '',
+      a1_est: '',
+      a1_mun: '',
+    };
+  }
 
   inserirCliente(): void {
     this.getClienteForm();
@@ -58,32 +72,41 @@ export class FormularioClienteComponent implements OnInit {
       );
   }
   getClienteForm(): void {
-    this.cliente.codigo;
+    this.cliente.a1_cod = this.dadosCliente.a1_cod;
+    this.cliente.a1_loja = this.dadosCliente.a1_loja;
+    this.cliente.a1_nome = this.dadosCliente.a1_nome;
+    this.cliente.a1_nreduz = this.dadosCliente.a1_nreduz;
+    this.cliente.a1_tipo = this.dadosCliente.a1_tipo;
+    this.cliente.a1_pessoa = this.dadosCliente.a1_pessoa;
+    this.cliente.a1_end = this.dadosCliente.a1_end;
+    this.cliente.a1_bairro = this.dadosCliente.a1_bairro;
+    this.cliente.a1_mun = this.dadosCliente.a1_mun;
+    this.cliente.a1_est = this.dadosCliente.a1_est;
   }
 
   fields: Array<PoDynamicFormField> = [
     {
-      property: 'id',
+      property: 'a1_cod',
       label: 'Codigo',
       maxLength: 6,
     },
     {
-      property: 'loja',
+      property: 'a1_loja',
       label: 'Loja',
       maxLength: 2,
     },
     {
-      property: 'nome',
+      property: 'a1_nome',
       label: 'Nome',
       maxLength: 40,
     },
     {
-      property: 'nreduz',
+      property: 'a1_nreduz',
       label: 'Nome Fantasia',
       maxLength: 20,
     },
     {
-      property: 'tipo',
+      property: 'a1_tipo',
       label: 'Tipo',
       options: [
         { label: 'Cons. Final', value: 'F' },
@@ -94,7 +117,7 @@ export class FormularioClienteComponent implements OnInit {
       ],
     },
     {
-      property: 'pessoa',
+      property: 'a1_pessoa',
       label: 'Fisica/Jurid',
       options: [
         { label: 'Fisica', value: 'F' },
@@ -102,24 +125,24 @@ export class FormularioClienteComponent implements OnInit {
       ],
     },
     {
-      property: 'end',
+      property: 'a1_end',
       label: 'Endereço',
       maxLength: 50,
     },
     {
-      property: 'bairro',
+      property: 'a1_bairro',
       label: 'Bairro',
-      maxLength: 30
+      maxLength: 30,
     },
     {
-      property: 'mun',
+      property: 'a1_mun',
       label: 'Municipio',
-      maxLength: 30
+      maxLength: 30,
     },
     {
-      property: 'est',
+      property: 'a1_est',
       label: 'Estado',
-      maxLength: 2
+      maxLength: 2,
     },
   ];
 }

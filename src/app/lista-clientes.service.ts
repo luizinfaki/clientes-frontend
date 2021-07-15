@@ -36,7 +36,7 @@ export class ListaClientesService {
       { property: 'loja', label: 'Loja' },
       { property: 'nome', label: 'Nome' },
       { property: 'tipo', label: 'Fisica/Juridica' },
-      { property: 'end',  label: 'Endereço' },
+      { property: 'endereco',  label: 'Endereço' },
     ];
   }
 }
