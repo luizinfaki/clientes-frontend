@@ -28,6 +28,7 @@ export class FormularioClienteComponent implements OnInit {
     a1_est: '',
     a1_mun: '',
   };
+  clienteId: string | any;
   title = 'Inclusão de Cliente';
 
   constructor(
@@ -50,12 +51,23 @@ export class FormularioClienteComponent implements OnInit {
       a1_est: '',
       a1_mun: '',
     };
+    this.route.paramMap.subscribe(params => {
+      this.clienteId = params.get('id');
+    });
+
+    if (this.clienteId) {
+      this.title = "Alteração de cliente";
+      this.setForm();
+    }
+  }
+
+  private setForm(): void {
   }
 
   inserirCliente(): void {
     this.getClienteForm();
     this.formularioClienteService
-      .postCliente(JSON.stringify(this.cliente))
+      .incluirCliente(JSON.stringify(this.cliente))
       .pipe(first())
       .subscribe(
         () => {
@@ -63,11 +75,9 @@ export class FormularioClienteComponent implements OnInit {
           this.router.navigate(['/clientes']); // redireciona p lista de clientes
         },
         (err) => {
-          // caso de erro
-          console.log(err);
-          console.log(err.error);
-          console.log(err.error.errorMessage);
-          this.poNotification.error('Falha ao inserir cliente.');
+          // TODO
+          this.poNotification.error(err);
+          this.router.navigate(['/clientes']); // redireciona p lista de clientes
         }
       );
   }
@@ -109,11 +119,11 @@ export class FormularioClienteComponent implements OnInit {
       property: 'a1_tipo',
       label: 'Tipo',
       options: [
-        { label: 'Cons. Final', value: 'F' },
-        { label: 'Produtor Rural', value: 'L' },
-        { label: 'Revendedor', value: 'R' },
-        { label: 'Solidario', value: 'S' },
-        { label: 'Exportação', value: 'X' },
+        { label: 'F - Cons. Final', value: 'F' },
+        { label: 'L - Produtor Rural', value: 'L' },
+        { label: 'R - Revendedor', value: 'R' },
+        { label: 'S - Solidario', value: 'S' },
+        { label: 'X - Exportação', value: 'X' },
       ],
     },
     {
@@ -132,7 +142,7 @@ export class FormularioClienteComponent implements OnInit {
     {
       property: 'a1_bairro',
       label: 'Bairro',
-      maxLength: 30,
+      maxLength: 15,
     },
     {
       property: 'a1_mun',

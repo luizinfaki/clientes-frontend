@@ -18,7 +18,7 @@ export class FormularioClienteService {
     })
   };
 
-  postCliente(body: string) {
+  incluirCliente(body: string) {
     return this.http.post(this.ApiRest, body, this.httpOptions);
   }
 }

@@ -4,10 +4,12 @@
 
 WSRESTFUL APICLIENTES DESCRIPTION "API REST Tabela Clientes SA1" FORMAT APPLICATION_JSON
 
-	WSMETHOD GET	DESCRIPTION 'Imprimir registros da Lista de Clientes'	WSSYNTAX '/APICLIENTES'  //-- Retorna lista de clientes
-	WSMETHOD POST	DESCRIPTION 'Inserir registro na Lista de Clientes'		WSSYNTAX '/APICLIENTES'
-	WSMETHOD PUT	DESCRIPTION 'Alterar registro na Lista de Clientes'		WSSYNTAX '/APICLIENTES'
-	WSMETHOD DELETE	DESCRIPTION 'Remover registro na Lista de Clientes'		WSSYNTAX '/APICLIENTES'
+	WSDATA ID as STRING OPTIONAL
+
+	WSMETHOD GET	DESCRIPTION 'Imprimir registros da Lista de Clientes'				WSSYNTAX '/APICLIENTES'  //-- Retorna lista de clientes
+	WSMETHOD POST	DESCRIPTION 'Inserir registro na Lista de Clientes'					WSSYNTAX '/APICLIENTES'
+	WSMETHOD PUT	DESCRIPTION 'Alterar registro na Lista de Clientes'					WSSYNTAX '/APICLIENTES'
+	WSMETHOD DELETE	DESCRIPTION 'Remover registro na Lista de Clientes'				WSSYNTAX '/APICLIENTES/{ID}'
 
 END WSRESTFUL
 
@@ -60,7 +62,7 @@ WSMETHOD PUT WSSERVICE APICLIENTES
 
 Return .T.
 
-WSMETHOD DELETE WSSERVICE APICLIENTES
+WSMETHOD DELETE WSRECEIVE ID WSSERVICE APICLIENTES
 	Local lRet 		:= .T.
 	Local oJson		:= getBodyJSON( self )
 	Local nOpc		:= 5 // EXCLUSAO
@@ -124,14 +126,14 @@ Static Function getClientes( oSelf )
 		If nCount >= nStart
 			nAux++
 			aAdd( aListCli , JsonObject():New() )
-			aListCli[nAux]['id']    	:= Alltrim( EncodeUTF8( ( cAliasSA1 )->A1_COD))
+			aListCli[nAux]['cod']    		:= Alltrim( EncodeUTF8( ( cAliasSA1 )->A1_COD))
 			aListCli[nAux]['loja']    	:= Alltrim( EncodeUTF8( ( cAliasSA1 )->A1_LOJA))
-			aListCli[nAux]['nome']  	:= Alltrim( EncodeUTF8( ( cAliasSA1 )->A1_NOME ))
+			aListCli[nAux]['nome']  		:= Alltrim( EncodeUTF8( ( cAliasSA1 )->A1_NOME ))
 			aListCli[nAux]['tipo']    	:= Alltrim( EncodeUTF8( ( cAliasSA1 )->A1_TIPO))
-			aListCli[nAux]['endereco']  := Alltrim( EncodeUTF8( ( cAliasSA1 )->A1_END))
+			aListCli[nAux]['end']				:= Alltrim( EncodeUTF8( ( cAliasSA1 )->A1_END))
 			aListCli[nAux]['bairro']    := Alltrim( EncodeUTF8( ( cAliasSA1 )->A1_BAIRRO))
-			aListCli[nAux]['cidade']    := Alltrim( EncodeUTF8( ( cAliasSA1 )->A1_MUN))
-			aListCli[nAux]['estado']    := Alltrim( EncodeUTF8( ( cAliasSA1 )->A1_EST))
+			aListCli[nAux]['mun']    		:= Alltrim( EncodeUTF8( ( cAliasSA1 )->A1_MUN))
+			aListCli[nAux]['est']    		:= Alltrim( EncodeUTF8( ( cAliasSA1 )->A1_EST))
 
 		EndIf
 		( cAliasSA1 )->( DBSkip() )
@@ -171,9 +173,23 @@ static function MCli(oSelf, oCli, nOpc)
 	Local cJsonRet	:= ""
 	Local i
 
+
 	Private lMsErroAuto	   := .F.
 
-	aCliArr := ClassDataArr(oCli)
+	if(oCli != NIL)
+	// gambiarra
+		if nOpc == 5
+			oCli:A1_COD := oSelf:ID
+		endif
+		aCliArr := ClassDataArr(oCli)
+	endif
+
+	// gambiarra pt2
+	if(aCliArr == NIL .and. nOpc == 5)
+		aCliArr := {}
+		aAdd(aCliArr, {"A1_COD", oSelf:ID})
+	endif
+
 	For i := 1 To Len(aCliArr)
 		aAdd(aSA1Auto, {aCliArr[i,1], aCliArr[i,2], Nil})
 	Next i
